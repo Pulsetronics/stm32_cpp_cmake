@@ -1,0 +1,33 @@
+creating a cmake file for this kind of folder
+
+
+-| Core 
+  --| Src
+  --| Inc
+-| Drivers
+  --| CMSIS
+  --| STM32
+-| LIB
+  --| src
+      ---| blink.c
+      ---| blink.h
+  --| CMakeLists.txt
+-| CMakeLists.txt
+
+
+
+#code in cmake in CMakeLists
+
+-----------------------------------------------
+cmake_minimum_required(VERSION 3.25.1)
+
+set(CMAKE_PROJECT_NAME  demo)
+project(demo)
+
+set_subdirectory(LIB)
+
+add_exexcutables(demo.elf)
+
+target_link_libraries(${CMAKE_SOURCE_NAME} blinks)
+
+

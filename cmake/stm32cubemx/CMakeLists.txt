@@ -4,7 +4,7 @@ project(stm32cubemx)
 add_library(stm32cubemx INTERFACE)
 
 # Enable CMake support for ASM and C languages
-enable_language(C ASM)
+enable_language(CXX ASM)
 
 target_compile_definitions(stm32cubemx INTERFACE 
 	USE_HAL_DRIVER 
@@ -21,7 +21,7 @@ target_include_directories(stm32cubemx INTERFACE
 )
 
 target_sources(stm32cubemx INTERFACE
-    ../../Core/Src/main.c
+    ../../Core/Src/main.cpp
     ../../Core/Src/gpio.c
     ../../Core/Src/stm32f1xx_it.c
     ../../Core/Src/stm32f1xx_hal_msp.c

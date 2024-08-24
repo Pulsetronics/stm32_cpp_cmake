@@ -1,6 +1,6 @@
 
 add_library(blinker 
-    src/blink.c
+    src/blink.cpp
 ) 
 
 target_include_directories(blinker PUBLIC 
@@ -11,3 +11,4 @@ target_link_libraries(blinker
     stm32cubemx
     # Add user defined libraries
 )
+

@@ -21,11 +21,12 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   
+  BLINK led(GPIOC, GPIO_PIN_13);
+
   while (1) {
-    blink(GPIO_PIN_SET);
+    led.toggle(GPIOC, GPIO_PIN_13); 
     HAL_Delay(100);
-    blink(GPIO_PIN_RESET);
-    HAL_Delay(100);
+    
   }
  
 }

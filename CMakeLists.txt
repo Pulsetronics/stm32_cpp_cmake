@@ -12,6 +12,10 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS ON)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
+
 
 # Define the build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -25,10 +29,10 @@ set(CMAKE_PROJECT_NAME testing)
 include("cmake/gcc-arm-none-eabi.cmake")
 
 # Enable compile command to ease indexing with e.g. clangd
-set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Enable CMake support for ASM and C languages
-enable_language(C ASM)
+enable_language(CXX ASM)
 
 
 # Core project settings
@@ -69,4 +73,31 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
     blinker
     # Add user defined libraries
+)
+
+set(GDB_CMD gdb-multiarch)
+set(OPENOCD_CMD openocd)
+set(PYTHON_CMD python3)
+
+
+
+add_custom_target(flash 
+                    COMMAND ${PYTHON_CMD} ${PROJECT_SOURCE_DIR}/openocd_kill.py
+                    COMMAND ${OPENOCD_CMD} -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program ${CMAKE_PROJECT_NAME}.elf verify reset exit"
+                    DEPENDS ${CMAKE_PROJECT_NAME}.elf
+                    COMMENT "Flashing ${CMAKE_PROJECT_NAME}.elf into Microcontroller"
+)
+
+add_custom_target(debug 
+                    COMMENT "Starting Debugging..."
+                    COMMAND ${PYTHON_CMD} ${PROJECT_SOURCE_DIR}/openocd_kill.py
+                    COMMAND ${OPENOCD_CMD} -f interface/stlink.cfg -f target/stm32f1x.cfg &
+                    COMMAND ${GDB_CMD} ${CMAKE_PROJECT_NAME}.elf -x ${PROJECT_SOURCE_DIR}/gdb_init.ini
+                    DEPENDS ${CMAKE_PROJECT_NAME}.elf
+                    COMMENT "Started Debugging ${CMAKE_PROJECT_NAME}.elf"
+)
+
+add_custom_target(programmer
+                    COMMENT "Ayinde Olayiwola @ 2024, Porto, Portugal"
+
 )
