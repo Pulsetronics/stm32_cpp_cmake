@@ -3,7 +3,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "gpio.h"
+#include "usart.h"
 #include "blink.h"
+#include "serial.h"
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -20,11 +22,15 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USART2_UART_Init();
+
+  Serial serial1(&huart2, 115200);
   
   BLINK led(GPIOC, GPIO_PIN_13);
 
   while (1) {
     led.toggle(GPIOC, GPIO_PIN_13); 
+    serial1.Print("Hello World \n");
     HAL_Delay(100);
     
   }
