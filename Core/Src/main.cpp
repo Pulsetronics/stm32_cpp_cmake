@@ -32,7 +32,6 @@ int main(void)
     led.toggle(GPIOC, GPIO_PIN_13); 
     serial1.Print("Hello World \n");
     HAL_Delay(100);
-    
   }
  
 }
